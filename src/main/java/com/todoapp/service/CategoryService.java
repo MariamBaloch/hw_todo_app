@@ -34,4 +34,17 @@ public class CategoryService {
                 .orElseThrow(() -> new InformationNotFoundException("Category with id " + id + "does not exits"));
     }
 
+    public Category updateCategory(Long id, Category updatedCategory) {
+        Category category = getCategory(id);
+        category.setName(updatedCategory.getName());
+        category.setDescription(updatedCategory.getDescription());
+        return categoryRepository.save(category);
+    }
+
+    public boolean deleteCategory(Long id) {
+        Category category = getCategory(id);
+        categoryRepository.delete(category);
+        return true;
+    }
+
 }
