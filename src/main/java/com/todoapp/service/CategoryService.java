@@ -2,6 +2,7 @@ package com.todoapp.service;
 
 
 import com.todoapp.exception.InformationExistException;
+import com.todoapp.exception.InformationNotFoundException;
 import com.todoapp.model.Category;
 import com.todoapp.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,8 @@ public class CategoryService {
     }
 
     public Category getCategory(Long id) {
-        return categoryRepository.getReferenceById(id);
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new InformationNotFoundException("Category with id " + id + "does not exits"));
     }
 
 }
