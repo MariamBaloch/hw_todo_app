@@ -27,7 +27,7 @@ public class ItemController {
         return itemService.createItem(categoryId, itemObject);
     }
 
-    @GetMapping("categories/{categoryId}/items/{itemId}")
+    @GetMapping("/categories/{categoryId}/items/{itemId}")
     public Item getItem(
             @PathVariable Long categoryId,
             @PathVariable Long itemId) {
