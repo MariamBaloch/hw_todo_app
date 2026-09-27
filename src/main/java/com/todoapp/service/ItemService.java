@@ -37,6 +37,7 @@ public class ItemService {
         Item item = getItem(categoryId, itemId);
         item.setName(itemObject.getName());
         item.setDescription(itemObject.getDescription());
+        item.setDueDate(itemObject.getDueDate());
         return itemRepository.save(item);
     }
 
