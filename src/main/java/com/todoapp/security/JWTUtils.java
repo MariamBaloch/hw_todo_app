@@ -22,7 +22,7 @@ public class JWTUtils {
 
     public String generateJwtToken(MyUserDetails myUserDetails) {
         return Jwts.builder()
-                .setSubject(myUserDetails.getPassword())
+                .setSubject(myUserDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
@@ -40,7 +40,7 @@ public class JWTUtils {
 
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parserBuilder().build().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(authToken);
             return true;
         } catch (SecurityException e) {
             logger.log(Level.SEVERE, "Invalid JWT signature: {0} ", e.getMessage());

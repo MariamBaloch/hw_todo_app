@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 @Configuration
+@EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
@@ -39,11 +41,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
                                 "/auth/users",
                                 "/auth/users/login",
-                                "/auth/users/register",
-                                "/v3/api-docs/**",
-                                "/v3/api-docs.yaml",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html"
+                                "/auth/users/register"
                         ).permitAll()
                         .anyRequest().authenticated());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
