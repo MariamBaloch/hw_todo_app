@@ -28,4 +28,9 @@ public class Category {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", orphanRemoval = true)
     @JsonIgnore
     private List<Item> items;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
 }
