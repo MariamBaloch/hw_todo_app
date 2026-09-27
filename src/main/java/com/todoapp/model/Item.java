@@ -20,6 +20,9 @@ public class Item {
     @Column
     private String description;
 
+    @Column
+    private LocalDateTime dueDate;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
