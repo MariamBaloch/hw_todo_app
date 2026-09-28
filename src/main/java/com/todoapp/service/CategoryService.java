@@ -4,6 +4,7 @@ package com.todoapp.service;
 import com.todoapp.exception.InformationExistException;
 import com.todoapp.exception.InformationNotFoundException;
 import com.todoapp.model.Category;
+import com.todoapp.model.User;
 import com.todoapp.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,22 +16,25 @@ import java.util.List;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final UserService userService;
 
     public Category createCategory(Category categoryObject){
-        Category category = categoryRepository.findByName(categoryObject.getName());
+        User user = userService.getCurrentLoggedInUser();
+        Category category = categoryRepository.findByUserIdAndName(user.getId(), categoryObject.getName());
         if(category != null) {
             throw new InformationExistException("Category with name " + category.getName() + " already exists");
         } else {
+            categoryObject.setUser(user);
             return categoryRepository.save(categoryObject);
         }
     }
 
     public List<Category> getCategories() {
-        return categoryRepository.findAll();
+        return categoryRepository.findAllByUserId(userService.getCurrentLoggedInUser().getId());
     }
 
     public Category getCategory(Long id) {
-        return categoryRepository.findById(id)
+        return categoryRepository.findByIdAndUserId(id, userService.getCurrentLoggedInUser().getId())
                 .orElseThrow(() -> new InformationNotFoundException("Category with id " + id + "does not exits"));
     }
 
